@@ -13,11 +13,15 @@ interface FilterState {
   filterCountry?: string;
 }
 
+interface EditState {
+  edit: boolean;
+  editData: Record<string, any>;
+}
 
 export default function Home() {
   const { data, totalPages, refreshData, loading, error, get, post, put, del } = useApi("http://localhost:3002");
-  const [formToggle, setFormToggle] = useState(false)
-  const [isEdit, setIsEdit] = useState({
+  const [formToggle, setFormToggle] = useState<boolean>(false)
+  const [isEdit, setIsEdit] = useState<EditState>({
     edit: false,
     editData: {}
   })

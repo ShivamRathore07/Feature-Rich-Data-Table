@@ -20,7 +20,7 @@ export const useApi = (baseUrl: string) => {
   const [error, setError] = useState<string>('');
   const [totalPages, setTotalPages] = useState(1);
 
-  const fetchData = async (method: string, endpoint: string, payload: any = null) => {
+  const fetchData = async (method: string, endpoint: string, payload: Location | null = null) => {
     setError('');
     try {
       const response = await axios({

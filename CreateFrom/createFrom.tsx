@@ -1,7 +1,20 @@
 "use client"
 import React, { useState } from 'react';
 import style from './createFrom.module.css'
-const CreateFrom = ({ setFormToggle, post, put, isEdit, setIsEdit }: { setFormToggle: any, post: any, put: any, isEdit: any, setIsEdit: any }) => {
+
+interface EditState {
+    edit: boolean;
+    editData: Record<string, any>;
+}
+
+interface CreateFormProps {
+    setFormToggle: React.Dispatch<React.SetStateAction<boolean>>;
+    post: any;  
+    put: any;
+    isEdit: EditState;
+    setIsEdit: React.Dispatch<React.SetStateAction<EditState>>;
+}
+const CreateFrom: React.FC<CreateFormProps> = ({ setFormToggle, post, put, isEdit, setIsEdit }) => {
     const [formData, setFormData] = useState({
         name: isEdit?.editData?.name || '',
         city: isEdit?.editData?.city || '',
@@ -10,16 +23,16 @@ const CreateFrom = ({ setFormToggle, post, put, isEdit, setIsEdit }: { setFormTo
         code: isEdit?.editData?.code || ''
     });
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (isEdit.edit) {
-            put(`/locations/${isEdit.editData.id}`, {...formData, updatedAt: new Date().toISOString()});
+            put(`/locations/${isEdit.editData.id}`, { ...formData, updatedAt: new Date().toISOString() });
         } else {
-            post("/locations", {...formData, updatedAt: new Date().toISOString()});
+            post("/locations", { ...formData, updatedAt: new Date().toISOString() });
         }
         setFormToggle(false)
     };
